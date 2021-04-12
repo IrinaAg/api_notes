@@ -7,15 +7,17 @@ from rest_framework.views import APIView
 from rest_framework.mixins import ListModelMixin, CreateModelMixin
 from rest_framework.generics import GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 
 class NoteViewSet(ModelViewSet):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
-    http_method_names = ['get', 'post']
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    # http_method_names = ['get', 'post']
 
     def list(self, request, *args, **kwags):
-        notes = Note.objects.filter(author=request.user.id)#all()
+        notes = Note.objects.all() #.filter(author=request.user.id) фильтрация по юзеру
         context = {'request': request}
         serializer = ThinNoteSerializer(notes, many=True, context=context)
         return Response(serializer.data)
