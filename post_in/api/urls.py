@@ -7,6 +7,7 @@ from rest_framework.routers import DefaultRouter
 # from post_in.api.views import NoteViewSet
 router = DefaultRouter()
 router.register('notes', NoteViewSet, basename='notes')
+router.register('users', UserViewSet, basename='users')
 urlpatterns = router.urls
 
 # notes_list = NoteViewSet.as_view(
